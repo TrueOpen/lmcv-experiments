@@ -1,0 +1,85 @@
+{
+  "comparison_kind_counts": {
+    "cross_model": 0,
+    "same_model": 1000
+  },
+  "expected_length_mismatch_sample_count": 0,
+  "layer_topk_shape_mismatch_sample_count": 0,
+  "mean_sample_entry_mismatch_rate": 0.1260304449231676,
+  "mean_topk_jaccard": 0.9680109941250757,
+  "mean_topk_overlap": 0.9819004944838688,
+  "non_ok_sample_count": 0,
+  "ok_sample_count": 1000,
+  "raw_shape_mismatch_sample_count": 1000,
+  "sample_count": 1000,
+  "sample_metric_summary": {
+    "entry_mismatch_rate": {
+      "count": 1000,
+      "max": 0.397244094488189,
+      "mean": 0.1260304449231676,
+      "min": 0.05,
+      "p50": 0.1188976377952756,
+      "p90": 0.13446850393700788
+    },
+    "token_layer_match_rate": {
+      "count": 1000,
+      "max": 0.8,
+      "mean": 0.5706867860807749,
+      "min": 0.1732283464566929,
+      "p50": 0.5811023622047244,
+      "p90": 0.6157641374373658
+    },
+    "token_layer_set_match_rate": {
+      "count": 1000,
+      "max": 1.0,
+      "mean": 0.8592833366325874,
+      "min": 0.49921259842519683,
+      "p50": 0.8692913385826772,
+      "p90": 0.889763779527559
+    },
+    "token_match_rate": {
+      "count": 1000,
+      "max": 0.1782178217821782,
+      "mean": 0.0754381374822637,
+      "min": 0.0,
+      "p50": 0.07874015748031496,
+      "p90": 0.11811023622047244
+    },
+    "topk_jaccard_mean": {
+      "count": 1000,
+      "max": 1.0,
+      "mean": 0.9680109941250757,
+      "min": 0.862763797881908,
+      "p50": 0.9703937007874016,
+      "p90": 0.9752230971128608
+    },
+    "topk_overlap_mean": {
+      "count": 1000,
+      "max": 1.0,
+      "mean": 0.9819004944838688,
+      "min": 0.9175196850393701,
+      "p50": 0.9832677165354331,
+      "p90": 0.9860236220472441
+    }
+  },
+  "selected_layer_counts": [
+    5
+  ],
+  "selected_layers": [
+    "0,1,2,3,4"
+  ],
+  "shape_mismatch_sample_count": 0,
+  "source_models": [
+    "Qwen/Qwen3.6-35B-A3B-FP8"
+  ],
+  "total_compared_entries": 4947800,
+  "total_compared_token_layers": 618475,
+  "total_compared_tokens": 123695,
+  "verifier_models": [
+    "Qwen/Qwen3.6-35B-A3B-FP8"
+  ],
+  "weighted_entry_match_rate": 0.8737665224948462,
+  "weighted_entry_mismatch_rate": 0.12623347750515382,
+  "weighted_token_layer_set_match_rate": 0.8592182384089898,
+  "weighted_token_match_rate": 0.07556489753021545
+}

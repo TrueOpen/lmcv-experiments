@@ -1,0 +1,225 @@
+{
+  "batch_accept_thresholds": [
+    [
+      "missing_selected_count",
+      "==",
+      0.0,
+      "selected token must be present in verifier top-k"
+    ],
+    [
+      "abs_logprob_diff_p50",
+      "<=",
+      0.0001,
+      "batch median selected-token drift"
+    ],
+    [
+      "mean_abs_logprob_diff",
+      "<=",
+      0.015,
+      "batch mean selected-token drift"
+    ],
+    [
+      "abs_logprob_diff_p90",
+      "<=",
+      0.06,
+      "batch p90 selected-token drift"
+    ],
+    [
+      "abs_logprob_diff_p95",
+      "<=",
+      0.09,
+      "batch p95 selected-token drift"
+    ],
+    [
+      "abs_logprob_diff_p99",
+      "<=",
+      0.2,
+      "batch p99 selected-token drift"
+    ],
+    [
+      "rank_delta_nonzero_rate",
+      "<=",
+      0.012,
+      "batch selected-token rank drift rate"
+    ],
+    [
+      "topk_jaccard_mean",
+      ">=",
+      0.94,
+      "batch mean top-k token-set overlap"
+    ],
+    [
+      "topk_jaccard_p05",
+      ">=",
+      0.82,
+      "batch p05 top-k token-set overlap"
+    ],
+    [
+      "union_js_p95",
+      "<=",
+      0.004,
+      "batch p95 top-k union JS divergence"
+    ],
+    [
+      "union_js_p99",
+      "<=",
+      0.012,
+      "batch p99 top-k union JS divergence"
+    ]
+  ],
+  "batch_reject_thresholds": [
+    [
+      "missing_selected_count",
+      ">",
+      0.0,
+      "selected token missing from verifier top-k"
+    ],
+    [
+      "mean_abs_logprob_diff",
+      ">",
+      0.02,
+      "batch mean selected-token drift too high"
+    ],
+    [
+      "abs_logprob_diff_p95",
+      ">",
+      0.12,
+      "batch p95 selected-token drift too high"
+    ],
+    [
+      "abs_logprob_diff_p99",
+      ">",
+      0.25,
+      "batch p99 selected-token drift too high"
+    ],
+    [
+      "rank_delta_nonzero_rate",
+      ">",
+      0.03,
+      "batch selected-token rank drift too high"
+    ],
+    [
+      "topk_jaccard_mean",
+      "<",
+      0.92,
+      "batch top-k overlap too low"
+    ],
+    [
+      "union_js_p99",
+      ">",
+      0.02,
+      "batch top-k JS divergence too high"
+    ]
+  ],
+  "calibration_note": "Calibrated from qwen3_8b_4090_data_results: BF16 worker-vs-BF16 verifier overall mean ~=0.0081, p95 ~=0.0499, p99 ~=0.1018; FP8 overall mean ~=0.0290, p95 ~=0.1351, p99 ~=0.3123.",
+  "profile_id": "qwen3-8b-bf16-4090-v1",
+  "requirements": {
+    "min_single_output_tokens": 64,
+    "min_strict_samples": 4,
+    "min_strict_total_tokens": 512,
+    "recommended_logprobs": 32,
+    "recommended_output_tokens_per_probe": 128,
+    "recommended_probe_count": 8,
+    "require_topk_for_strict": true
+  },
+  "sample_accept_thresholds": [
+    [
+      "missing_selected_count",
+      "==",
+      0.0,
+      "selected token must be present in verifier top-k"
+    ],
+    [
+      "mean_abs_logprob_diff",
+      "<=",
+      0.02,
+      "sample mean selected-token drift"
+    ],
+    [
+      "abs_logprob_diff_p95",
+      "<=",
+      0.12,
+      "sample p95 selected-token drift"
+    ],
+    [
+      "abs_logprob_diff_p99",
+      "<=",
+      0.25,
+      "sample p99 selected-token drift"
+    ],
+    [
+      "rank_delta_nonzero_rate",
+      "<=",
+      0.03,
+      "sample selected-token rank drift rate"
+    ],
+    [
+      "topk_jaccard_mean",
+      ">=",
+      0.92,
+      "sample top-k token-set overlap"
+    ],
+    [
+      "union_js_p99",
+      "<=",
+      0.02,
+      "sample p99 top-k union JS divergence"
+    ]
+  ],
+  "sample_rate_thresholds": {
+    "max_strict_sample_reject_rate": 0.02,
+    "min_strict_sample_accept_rate": 0.9
+  },
+  "single_reject_thresholds": [
+    [
+      "missing_selected_count",
+      ">",
+      0.0,
+      "selected token missing from verifier top-k"
+    ],
+    [
+      "mean_abs_logprob_diff",
+      ">",
+      0.03,
+      "single-sample mean selected-token drift too high"
+    ],
+    [
+      "abs_logprob_diff_p95",
+      ">",
+      0.2,
+      "single-sample p95 selected-token drift too high"
+    ],
+    [
+      "abs_logprob_diff_p99",
+      ">",
+      0.5,
+      "single-sample p99 selected-token drift too high"
+    ],
+    [
+      "rank_delta_nonzero_rate",
+      ">",
+      0.06,
+      "single-sample selected-token rank drift too high"
+    ],
+    [
+      "topk_jaccard_mean",
+      "<",
+      0.88,
+      "single-sample top-k overlap too low"
+    ],
+    [
+      "union_js_p99",
+      ">",
+      0.06,
+      "single-sample top-k JS divergence too high"
+    ]
+  ],
+  "target": {
+    "dtype": "bfloat16",
+    "model": "Qwen/Qwen3-8B",
+    "quantization": "bf16",
+    "verifier_trace_mode": "vllm_prompt_logprobs_full_prefill",
+    "worker_gpu": "4090",
+    "worker_trace_mode": "vllm_decode_generate"
+  }
+}

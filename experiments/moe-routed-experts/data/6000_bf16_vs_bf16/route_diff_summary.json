@@ -1,0 +1,79 @@
+{
+  "comparison_kind_counts": {
+    "cross_model": 0,
+    "same_model": 1000
+  },
+  "expected_length_mismatch_sample_count": 0,
+  "layer_topk_shape_mismatch_sample_count": 0,
+  "mean_sample_entry_mismatch_rate": 0.19160597873640506,
+  "mean_topk_jaccard": 0.9429780149679668,
+  "mean_topk_overlap": 0.9666351762792889,
+  "non_ok_sample_count": 0,
+  "ok_sample_count": 1000,
+  "raw_shape_mismatch_sample_count": 1000,
+  "sample_count": 1000,
+  "sample_metric_summary": {
+    "entry_mismatch_rate": {
+      "count": 1000,
+      "max": 0.4768454724409449,
+      "mean": 0.19160597873640506,
+      "min": 0.12317913385826772,
+      "p50": 0.1829970472440945,
+      "p90": 0.2230044291338583
+    },
+    "token_layer_match_rate": {
+      "count": 1000,
+      "max": 0.5899606299212599,
+      "mean": 0.45044521625622985,
+      "min": 0.09744094488188976,
+      "p50": 0.45984251968503936,
+      "p90": 0.5246259842519685
+    },
+    "token_layer_set_match_rate": {
+      "count": 1000,
+      "max": 0.8606299212598425,
+      "mean": 0.7694702043583705,
+      "min": 0.375,
+      "p50": 0.7803149606299212,
+      "p90": 0.8244094488188977
+    },
+    "token_match_rate": {
+      "count": 1000,
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0,
+      "p50": 0.0,
+      "p90": 0.0
+    },
+    "topk_jaccard_mean": {
+      "count": 1000,
+      "max": 0.968341684562157,
+      "mean": 0.9429780149679668,
+      "min": 0.7886073288041792,
+      "p50": 0.9472488666189454,
+      "p90": 0.959265887218643
+    },
+    "topk_overlap_mean": {
+      "count": 1000,
+      "max": 0.9820866141732284,
+      "mean": 0.9666351762792889,
+      "min": 0.8603838582677166,
+      "p50": 0.9696604330708661,
+      "p90": 0.976801968503937
+    }
+  },
+  "shape_mismatch_sample_count": 0,
+  "source_models": [
+    "Qwen/Qwen3.6-35B-A3B"
+  ],
+  "total_compared_entries": 39557120,
+  "total_compared_token_layers": 4944640,
+  "total_compared_tokens": 123616,
+  "verifier_models": [
+    "Qwen/Qwen3.6-35B-A3B"
+  ],
+  "weighted_entry_match_rate": 0.8080712144867979,
+  "weighted_entry_mismatch_rate": 0.19192878551320217,
+  "weighted_token_layer_set_match_rate": 0.7689603287600311,
+  "weighted_token_match_rate": 0.0
+}
