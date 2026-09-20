@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "worker-logits-verify"
+version = "0.1.0"
+description = "Depth-aware teacher-forced logits/logprob fingerprinting for worker output verification."
+requires-python = ">=3.9"
+dependencies = []
+
+[project.optional-dependencies]
+transformers = [
+  "accelerate",
+  "torch",
+  "transformers",
+]
+
+[project.scripts]
+worker-logits-generate-prompts = "worker_logits_verify.generate_prompts:main"
+worker-logits-generate-anchor = "worker_logits_verify.generate_anchor_outputs:main"
+worker-logits-collect-trace = "worker_logits_verify.collect_trace:main"
+worker-logits-compare-traces = "worker_logits_verify.compare_traces:main"
+worker-logits-calibrate-profile = "worker_logits_verify.calibrate_profile:main"
+worker-logits-verify-comparison = "worker_logits_verify.verify_comparison:main"
+worker-logits-analyze-depth-effect = "worker_logits_verify.analyze_depth_effect:main"
+worker-logits-collect-vllm-evidence = "worker_logits_verify.collect_vllm_worker_evidence:main"
+worker-logits-verify-vllm-evidence = "worker_logits_verify.verify_vllm_worker_evidence:main"
+worker-logits-run-vllm-worker-verify = "worker_logits_verify.run_vllm_worker_verify:main"
+worker-logits-summarize-worker-verify = "worker_logits_verify.summarize_worker_verify:main"
+worker-logits-dense-bf16-verify = "worker_logits_verify.dense_bf16_verifier:main"
+worker-logits-estimate-sample-size = "worker_logits_verify.estimate_sample_size:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

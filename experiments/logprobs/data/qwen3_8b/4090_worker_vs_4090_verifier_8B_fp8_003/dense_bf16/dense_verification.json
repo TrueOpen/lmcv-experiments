@@ -1,0 +1,201 @@
+{
+  "args": {
+    "fail_on_reject": false,
+    "metrics": "qwen3_8b_4090_data_results/results/qwen3_8b_identity_v1/worker_verify/4090_worker_vs_4090_verifier_8B_fp8_003",
+    "output_dir": "qwen3_8b_4090_data_results/results/qwen3_8b_identity_v1/worker_verify/4090_worker_vs_4090_verifier_8B_fp8_003/dense_bf16",
+    "preset": "qwen3-8b-bf16-4090-v1"
+  },
+  "batch_accept_checks": [
+    {
+      "metric": "missing_selected_count",
+      "op": "==",
+      "passed": true,
+      "reason": "selected token must be present in verifier top-k",
+      "threshold": 0.0,
+      "value": 0.0
+    },
+    {
+      "metric": "abs_logprob_diff_p50",
+      "op": "<=",
+      "passed": false,
+      "reason": "batch median selected-token drift",
+      "threshold": 0.0001,
+      "value": 0.0001448246111976914
+    },
+    {
+      "metric": "mean_abs_logprob_diff",
+      "op": "<=",
+      "passed": false,
+      "reason": "batch mean selected-token drift",
+      "threshold": 0.015,
+      "value": 0.029024547231803227
+    },
+    {
+      "metric": "abs_logprob_diff_p90",
+      "op": "<=",
+      "passed": false,
+      "reason": "batch p90 selected-token drift",
+      "threshold": 0.06,
+      "value": 0.07944080084562306
+    },
+    {
+      "metric": "abs_logprob_diff_p95",
+      "op": "<=",
+      "passed": false,
+      "reason": "batch p95 selected-token drift",
+      "threshold": 0.09,
+      "value": 0.1350997298955917
+    },
+    {
+      "metric": "abs_logprob_diff_p99",
+      "op": "<=",
+      "passed": false,
+      "reason": "batch p99 selected-token drift",
+      "threshold": 0.2,
+      "value": 0.3125107610225677
+    },
+    {
+      "metric": "rank_delta_nonzero_rate",
+      "op": "<=",
+      "passed": false,
+      "reason": "batch selected-token rank drift rate",
+      "threshold": 0.012,
+      "value": 0.018984375
+    },
+    {
+      "metric": "topk_jaccard_mean",
+      "op": ">=",
+      "passed": false,
+      "reason": "batch mean top-k token-set overlap",
+      "threshold": 0.94,
+      "value": 0.8995317374385391
+    },
+    {
+      "metric": "topk_jaccard_p05",
+      "op": ">=",
+      "passed": false,
+      "reason": "batch p05 top-k token-set overlap",
+      "threshold": 0.82,
+      "value": 0.7297297297297297
+    },
+    {
+      "metric": "union_js_p95",
+      "op": "<=",
+      "passed": false,
+      "reason": "batch p95 top-k union JS divergence",
+      "threshold": 0.004,
+      "value": 0.0075184357541470065
+    },
+    {
+      "metric": "union_js_p99",
+      "op": "<=",
+      "passed": false,
+      "reason": "batch p99 top-k union JS divergence",
+      "threshold": 0.012,
+      "value": 0.022863190003139883
+    }
+  ],
+  "batch_reject_checks": [
+    {
+      "metric": "missing_selected_count",
+      "op": ">",
+      "passed": false,
+      "reason": "selected token missing from verifier top-k",
+      "threshold": 0.0,
+      "value": 0.0
+    },
+    {
+      "metric": "mean_abs_logprob_diff",
+      "op": ">",
+      "passed": true,
+      "reason": "batch mean selected-token drift too high",
+      "threshold": 0.02,
+      "value": 0.029024547231803227
+    },
+    {
+      "metric": "abs_logprob_diff_p95",
+      "op": ">",
+      "passed": true,
+      "reason": "batch p95 selected-token drift too high",
+      "threshold": 0.12,
+      "value": 0.1350997298955917
+    },
+    {
+      "metric": "abs_logprob_diff_p99",
+      "op": ">",
+      "passed": true,
+      "reason": "batch p99 selected-token drift too high",
+      "threshold": 0.25,
+      "value": 0.3125107610225677
+    },
+    {
+      "metric": "rank_delta_nonzero_rate",
+      "op": ">",
+      "passed": false,
+      "reason": "batch selected-token rank drift too high",
+      "threshold": 0.03,
+      "value": 0.018984375
+    },
+    {
+      "metric": "topk_jaccard_mean",
+      "op": "<",
+      "passed": true,
+      "reason": "batch top-k overlap too low",
+      "threshold": 0.92,
+      "value": 0.8995317374385391
+    },
+    {
+      "metric": "union_js_p99",
+      "op": ">",
+      "passed": true,
+      "reason": "batch top-k JS divergence too high",
+      "threshold": 0.02,
+      "value": 0.022863190003139883
+    }
+  ],
+  "metadata": {
+    "argv": [
+      "/Users/liangran/CodexSpace/worker_logits_verify/src/worker_logits_verify/dense_bf16_verifier.py",
+      "--metrics",
+      "qwen3_8b_4090_data_results/results/qwen3_8b_identity_v1/worker_verify/4090_worker_vs_4090_verifier_8B_fp8_003",
+      "--output-dir",
+      "qwen3_8b_4090_data_results/results/qwen3_8b_identity_v1/worker_verify/4090_worker_vs_4090_verifier_8B_fp8_003/dense_bf16"
+    ],
+    "created_at_unix": 1783990392.976963,
+    "platform": "macOS-14.5-x86_64-i386-64bit",
+    "python": "3.9.6 (default, May  7 2023, 23:32:45) \n[Clang 14.0.3 (clang-1403.0.22.14.1)]"
+  },
+  "overall": {
+    "abs_logprob_diff_p50": 0.0001448246111976914,
+    "abs_logprob_diff_p90": 0.07944080084562306,
+    "abs_logprob_diff_p95": 0.1350997298955917,
+    "abs_logprob_diff_p99": 0.3125107610225677,
+    "abs_logprob_diff_p999": 0.8361013794338896,
+    "count": 25600,
+    "finite_count": 25600,
+    "group": "overall",
+    "max_abs_logprob_diff": 30.525996267795563,
+    "mean_abs_logprob_diff": 0.029024547231803227,
+    "missing_selected_count": 0,
+    "rank_delta_nonzero_rate": 0.018984375,
+    "topk_jaccard_mean": 0.8995317374385391,
+    "topk_jaccard_p01": 0.4883720930232558,
+    "topk_jaccard_p05": 0.7297297297297297,
+    "union_js_max": 0.6926996006653869,
+    "union_js_p95": 0.0075184357541470065,
+    "union_js_p99": 0.022863190003139883
+  },
+  "passed": false,
+  "preset": "qwen3-8b-bf16-4090-v1",
+  "reason": "batch violates one or more exact-BF16 reject thresholds",
+  "sample_count": 200,
+  "sample_pass_rate": 0.05,
+  "sample_reject_rate": 0.695,
+  "sample_verdict_counts": {
+    "INCONCLUSIVE": 51,
+    "PASS_PROVISIONAL": 10,
+    "REJECT": 139
+  },
+  "source": "qwen3_8b_4090_data_results/results/qwen3_8b_identity_v1/worker_verify/4090_worker_vs_4090_verifier_8B_fp8_003/worker_vs_verifier_depth_metrics.csv",
+  "verdict": "REJECT"
+}

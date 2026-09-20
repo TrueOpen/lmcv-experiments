@@ -1,0 +1,2 @@
+compared_entries,entry_match_count,entry_match_rate,entry_mismatch_count,entry_mismatch_rate,layer_idx,sample_layer_count,token_layer_count,token_layer_match_count,token_layer_match_rate,token_layer_set_count,token_layer_set_match_count,token_layer_set_match_rate,topk_jaccard_mean,topk_overlap_mean
+988928,876833,0.8866499886746052,112095,0.11335001132539477,0,1000,123616,73079,0.5911775174734663,123616,109662,0.8871181724048667,0.9747483245606471,0.9857724728190526

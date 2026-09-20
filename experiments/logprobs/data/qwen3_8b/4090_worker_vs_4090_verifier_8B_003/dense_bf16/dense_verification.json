@@ -1,0 +1,201 @@
+{
+  "args": {
+    "fail_on_reject": false,
+    "metrics": "qwen3_8b_4090_data_results/results/qwen3_8b_identity_v1/worker_verify/4090_worker_vs_4090_verifier_8B_003",
+    "output_dir": "qwen3_8b_4090_data_results/results/qwen3_8b_identity_v1/worker_verify/4090_worker_vs_4090_verifier_8B_003/dense_bf16",
+    "preset": "qwen3-8b-bf16-4090-v1"
+  },
+  "batch_accept_checks": [
+    {
+      "metric": "missing_selected_count",
+      "op": "==",
+      "passed": true,
+      "reason": "selected token must be present in verifier top-k",
+      "threshold": 0.0,
+      "value": 0.0
+    },
+    {
+      "metric": "abs_logprob_diff_p50",
+      "op": "<=",
+      "passed": true,
+      "reason": "batch median selected-token drift",
+      "threshold": 0.0001,
+      "value": 1.0012776328949258e-05
+    },
+    {
+      "metric": "mean_abs_logprob_diff",
+      "op": "<=",
+      "passed": true,
+      "reason": "batch mean selected-token drift",
+      "threshold": 0.015,
+      "value": 0.008568937110396344
+    },
+    {
+      "metric": "abs_logprob_diff_p90",
+      "op": "<=",
+      "passed": true,
+      "reason": "batch p90 selected-token drift",
+      "threshold": 0.06,
+      "value": 0.0260684952139855
+    },
+    {
+      "metric": "abs_logprob_diff_p95",
+      "op": "<=",
+      "passed": true,
+      "reason": "batch p95 selected-token drift",
+      "threshold": 0.09,
+      "value": 0.05049985349178314
+    },
+    {
+      "metric": "abs_logprob_diff_p99",
+      "op": "<=",
+      "passed": true,
+      "reason": "batch p99 selected-token drift",
+      "threshold": 0.2,
+      "value": 0.10195806920528411
+    },
+    {
+      "metric": "rank_delta_nonzero_rate",
+      "op": "<=",
+      "passed": true,
+      "reason": "batch selected-token rank drift rate",
+      "threshold": 0.012,
+      "value": 0.0061328125
+    },
+    {
+      "metric": "topk_jaccard_mean",
+      "op": ">=",
+      "passed": true,
+      "reason": "batch mean top-k token-set overlap",
+      "threshold": 0.94,
+      "value": 0.9687346857206955
+    },
+    {
+      "metric": "topk_jaccard_p05",
+      "op": ">=",
+      "passed": true,
+      "reason": "batch p05 top-k token-set overlap",
+      "threshold": 0.82,
+      "value": 0.8823529411764706
+    },
+    {
+      "metric": "union_js_p95",
+      "op": "<=",
+      "passed": true,
+      "reason": "batch p95 top-k union JS divergence",
+      "threshold": 0.004,
+      "value": 0.001063581862738077
+    },
+    {
+      "metric": "union_js_p99",
+      "op": "<=",
+      "passed": true,
+      "reason": "batch p99 top-k union JS divergence",
+      "threshold": 0.012,
+      "value": 0.002817714573894709
+    }
+  ],
+  "batch_reject_checks": [
+    {
+      "metric": "missing_selected_count",
+      "op": ">",
+      "passed": false,
+      "reason": "selected token missing from verifier top-k",
+      "threshold": 0.0,
+      "value": 0.0
+    },
+    {
+      "metric": "mean_abs_logprob_diff",
+      "op": ">",
+      "passed": false,
+      "reason": "batch mean selected-token drift too high",
+      "threshold": 0.02,
+      "value": 0.008568937110396344
+    },
+    {
+      "metric": "abs_logprob_diff_p95",
+      "op": ">",
+      "passed": false,
+      "reason": "batch p95 selected-token drift too high",
+      "threshold": 0.12,
+      "value": 0.05049985349178314
+    },
+    {
+      "metric": "abs_logprob_diff_p99",
+      "op": ">",
+      "passed": false,
+      "reason": "batch p99 selected-token drift too high",
+      "threshold": 0.25,
+      "value": 0.10195806920528411
+    },
+    {
+      "metric": "rank_delta_nonzero_rate",
+      "op": ">",
+      "passed": false,
+      "reason": "batch selected-token rank drift too high",
+      "threshold": 0.03,
+      "value": 0.0061328125
+    },
+    {
+      "metric": "topk_jaccard_mean",
+      "op": "<",
+      "passed": false,
+      "reason": "batch top-k overlap too low",
+      "threshold": 0.92,
+      "value": 0.9687346857206955
+    },
+    {
+      "metric": "union_js_p99",
+      "op": ">",
+      "passed": false,
+      "reason": "batch top-k JS divergence too high",
+      "threshold": 0.02,
+      "value": 0.002817714573894709
+    }
+  ],
+  "metadata": {
+    "argv": [
+      "/Users/liangran/CodexSpace/worker_logits_verify/src/worker_logits_verify/dense_bf16_verifier.py",
+      "--metrics",
+      "qwen3_8b_4090_data_results/results/qwen3_8b_identity_v1/worker_verify/4090_worker_vs_4090_verifier_8B_003",
+      "--output-dir",
+      "qwen3_8b_4090_data_results/results/qwen3_8b_identity_v1/worker_verify/4090_worker_vs_4090_verifier_8B_003/dense_bf16"
+    ],
+    "created_at_unix": 1783990409.056592,
+    "platform": "macOS-14.5-x86_64-i386-64bit",
+    "python": "3.9.6 (default, May  7 2023, 23:32:45) \n[Clang 14.0.3 (clang-1403.0.22.14.1)]"
+  },
+  "overall": {
+    "abs_logprob_diff_p50": 1.0012776328949258e-05,
+    "abs_logprob_diff_p90": 0.0260684952139855,
+    "abs_logprob_diff_p95": 0.05049985349178314,
+    "abs_logprob_diff_p99": 0.10195806920528411,
+    "abs_logprob_diff_p999": 0.22213136365452057,
+    "count": 25600,
+    "finite_count": 25600,
+    "group": "overall",
+    "max_abs_logprob_diff": 18.74807095527649,
+    "mean_abs_logprob_diff": 0.008568937110396344,
+    "missing_selected_count": 0,
+    "rank_delta_nonzero_rate": 0.0061328125,
+    "topk_jaccard_mean": 0.9687346857206955,
+    "topk_jaccard_p01": 0.7777777777777778,
+    "topk_jaccard_p05": 0.8823529411764706,
+    "union_js_max": 0.4029881726848792,
+    "union_js_p95": 0.001063581862738077,
+    "union_js_p99": 0.002817714573894709
+  },
+  "passed": true,
+  "preset": "qwen3-8b-bf16-4090-v1",
+  "reason": "batch matches the Qwen3-8B BF16 dense fingerprint",
+  "sample_count": 200,
+  "sample_pass_rate": 0.96,
+  "sample_reject_rate": 0.005,
+  "sample_verdict_counts": {
+    "INCONCLUSIVE": 7,
+    "PASS_PROVISIONAL": 192,
+    "REJECT": 1
+  },
+  "source": "qwen3_8b_4090_data_results/results/qwen3_8b_identity_v1/worker_verify/4090_worker_vs_4090_verifier_8B_003/worker_vs_verifier_depth_metrics.csv",
+  "verdict": "PASS_STRICT"
+}
