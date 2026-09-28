@@ -114,6 +114,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--limit", type=int, default=0)
+    parser.add_argument("--sort-desc-tokens", action="store_true",
+                        help="Process prompts sorted by estimated total token count "
+                             "(input tokens + max_new_tokens) in descending order "
+                             "(largest first).")
     args = parser.parse_args(argv)
 
     from transformers import AutoTokenizer
@@ -143,11 +147,19 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         do_sample=args.temperature > 0.0,
     )
 
-    samples = []
-    for index, payload in enumerate(read_jsonl(Path(args.input)), start=1):
-        if args.limit and index > args.limit:
-            break
-        samples.append((index, parse_worker_sample(payload)))
+    samples = [
+        (index, parse_worker_sample(payload))
+        for index, payload in enumerate(read_jsonl(Path(args.input)), start=1)
+    ]
+    if args.sort_desc_tokens:
+        # Output is not generated yet, so total tokens = input tokens + the fixed
+        # generation budget; the budget is constant, so this orders by input length.
+        samples.sort(
+            key=lambda item: len(encode_text(tokenizer, item[1].input_text)) + args.max_new_tokens,
+            reverse=True,
+        )
+    if args.limit:
+        samples = samples[:args.limit]
 
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)

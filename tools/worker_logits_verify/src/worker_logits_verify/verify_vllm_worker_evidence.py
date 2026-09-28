@@ -207,6 +207,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--batch-size", type=int, default=4)
     parser.add_argument("--missing-logprob", type=float, default=-100.0)
     parser.add_argument("--limit", type=int, default=0)
+    parser.add_argument("--sort-desc-tokens", action="store_true",
+                        help="Process evidence rows sorted by total (input+output) token "
+                             "count in descending order (largest first).")
     parser.add_argument("--max-total-tokens", type=int, default=0,
                         help="Skip evidence rows whose input+output token count exceeds this value.")
     args = parser.parse_args(argv)
@@ -232,14 +235,19 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     evidence_rows = []
     skipped_too_long = 0
-    for index, row in enumerate(read_jsonl(Path(args.evidence)), start=1):
-        if args.limit and index > args.limit:
-            break
+    for row in read_jsonl(Path(args.evidence)):
         total_tokens = len(row.get("input_ids", [])) + len(row.get("output_ids", []))
         if args.max_total_tokens and total_tokens > args.max_total_tokens:
             skipped_too_long += 1
             continue
         evidence_rows.append(row)
+    if args.sort_desc_tokens:
+        evidence_rows.sort(
+            key=lambda row: len(row.get("input_ids", [])) + len(row.get("output_ids", [])),
+            reverse=True,
+        )
+    if args.limit:
+        evidence_rows = evidence_rows[:args.limit]
     log(
         f"Loaded evidence rows: {len(evidence_rows)} "
         f"(skipped_too_long={skipped_too_long})"
