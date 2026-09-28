@@ -106,10 +106,10 @@ BF16 remains excluded from this practical comparison. The operating goal here is
 
 The following table uses `REJECT_SINGLE_LOW_FR` and excludes BF16 from comparison.
 
-| 指标 / 判定阈值 | 作弊类型 | 样本数（作弊 / 正常） | 作弊检出率 | 正常结果误拒率 |
+| Metric / Decision Threshold | Cheat Type | Samples (cheat / normal) | Cheat Detection Rate | Normal False Reject Rate |
 |---|---|---:|---:|---:|
-| `finite_count > 5` 且严格通过优先；否则任一 `REJECT_SINGLE_LOW_FR` clause | `3.8_27b_awq4_h100_worker` 冒充 `3.8_27b_fp8_h100_worker` | `725 / 714` | `90.90%` (`659/725`) | `9.66%` (`69/714`) |
-| same as above | `3.6_27b_fp8_h100_worker` 冒充 `3.8_27b_fp8_h100_worker` | `917 / 714` | `100.00%` (`917/917`) | `9.66%` (`69/714`) |
+| `finite_count > 5` with strict-pass priority; otherwise any `REJECT_SINGLE_LOW_FR` clause | `3.8_27b_awq4_h100_worker` impersonating `3.8_27b_fp8_h100_worker` | `725 / 714` | `90.90%` (`659/725`) | `9.66%` (`69/714`) |
+| same as above | `3.6_27b_fp8_h100_worker` impersonating `3.8_27b_fp8_h100_worker` | `917 / 714` | `100.00%` (`917/917`) | `9.66%` (`69/714`) |
 
 ## Recommendation
 
