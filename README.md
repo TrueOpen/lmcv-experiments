@@ -1,5 +1,7 @@
 # lmcv-experiments
 
+Project page: https://www.trueopen.ai/research/lmcv/
+
 Research code, tooling, and empirical data for **Logprob Majority-Consensus
 Verification (LMCV)** — a low-cost execution-verification protocol for open,
 decentralized inference networks.
