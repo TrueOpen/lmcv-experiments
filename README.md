@@ -129,13 +129,26 @@ does a single parallel prefill with `prompt_logprobs=20`. Raw data and summaries
 under [`data/qwen3_8b/`](experiments/worker-verifier-latency/data/qwen3_8b/); the
 analysis is [`reports/worker_verifier_latency_benchmark_report.md`](experiments/worker-verifier-latency/reports/worker_verifier_latency_benchmark_report.md).
 
-**Finding:** Worker cost ≈ `output_len × 17.5 ms` (serial, memory-bandwidth-bound);
-verifier cost ≈ `total_tokens / ~5200 tok/s` (one parallel prefill). For typical
-multi-token outputs the verifier costs about **1%** of a generation
-(worker/verifier ≈ **80×–114×**, peaking at output 1024–2048). The only exception is
-`output_len = 1`, where the verifier's fixed per-position logprob overhead makes it
-slightly slower. Three verifiers together therefore cost roughly **1.9%–14.8%** of a
-single generation.
+**Findings — two separate compute-time experiments:**
+
+- **Qwen3-8B / Qwen3-32B, one verification replay:** For outputs of
+  **1,024–8,192 tokens**, the reported single-replay time was approximately
+  **0.85%–8.42%** of one generation run. The models were measured on an RTX 4090
+  and an H100 NVL, respectively. This range is restricted to that output-length
+  subset; it is not a fixed ratio for every input/output configuration. See the
+  [benchmark report](experiments/worker-verifier-latency/reports/worker_verifier_latency_benchmark_report.md)
+  and [whitepaper §3.1.5](https://www.trueopen.ai/docs/whitepaper/#315-verification-cost-and-scope).
+- **Qwen2.5-7B, three replay passes combined:** A separate experiment measured
+  **1.9%–14.8%** as `3 × tf_full / gen`, with output fixed at **1,000 tokens**
+  and input lengths of 50–8,000 tokens. It used FP16, batch size 1, vLLM 0.20.1,
+  and one RTX PRO 6000 Blackwell (96 GB). See the
+  [7B experiment report](https://www.trueopen.ai/docs/verification-cost-7b/).
+  This range is not derived by multiplying the Qwen3 result by three.
+
+Both results concern compute time under their respective test configurations.
+Neither measures total online-service cost: networking, gas, queuing, evidence
+handling and settlement are outside these ratios. Three measured replay passes
+also do not establish an end-to-end service running on three independent nodes.
 
 ## Key findings
 
@@ -146,9 +159,12 @@ single generation.
   layer-0 routed-experts fingerprint forms a structurally stable, cross-GPU
   reproducible gap (a BF16 verifier attains TPR = 1.000 with 0.000 false-pass at
   threshold 0.060 under a layer-0 random-5 aggregate).
-- A single verification prefill costs about **1%** of one generation
-  (worker/verifier ≈ 80×–114×), so three verifiers together consume roughly
-  **1.9%–14.8%** of the GPU time of a single generation.
+- **Compute-time evidence must be cited by experiment:** Qwen3-8B / Qwen3-32B
+  measured **one replay at 0.85%–8.42%** of generation time for outputs of
+  **1,024–8,192 tokens**; the separate Qwen2.5-7B experiment measured
+  **three replays combined at 1.9%–14.8%**, with output fixed at **1,000 tokens**.
+  These are configuration-dependent compute-time ratios, not total online-service
+  costs; see the separate sources and measurement boundaries in §3 above.
 
 ## Getting started
 
