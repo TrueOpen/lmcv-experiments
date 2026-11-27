@@ -1,9 +1,10 @@
-# lmcv-experiments
+# Logprob verification — Experiments
+
+**Naming:** The public name is **Logprob verification** (中文：**logprob 验证**). Published papers use **Logprob Majority-Consensus Verification (LMCV)**. Original papers, citations, filenames and repository URLs remain unchanged.
 
 **Project page:** [trueopen.ai/research/lmcv](https://www.trueopen.ai/research/lmcv/)
 
-Research code, tooling, and empirical data for **Logprob Majority-Consensus
-Verification (LMCV)** — a low-cost execution-verification protocol for open,
+Research code, tooling, and empirical data for **Logprob verification** — a low-cost execution-verification protocol for open,
 decentralized inference networks.
 
 ## Background
@@ -15,7 +16,7 @@ the entire generation?* Full recomputation is as expensive as regenerating the
 answer, and comparing only the final text cannot distinguish same-family models,
 quantized variants, or a small model masquerading as a large one.
 
-LMCV combines a **token-level probability fingerprint** with **independent
+Logprob verification combines a **token-level probability fingerprint** with **independent
 multi-node consensus**. Once generation is complete, a verifier runs a single
 parallel *teacher-forced prefill* over the frozen `input_ids + output_ids` path,
 reconstructs each position's predictive distribution, and checks the logprob,
