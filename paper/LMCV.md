@@ -35,11 +35,7 @@ heterogeneous smaller models separate sharply on p99, rank-delta rate, top-*k*
 Jaccard, and union-JS. For MoE, per-token logprob is confounded by sparse heavy-tailed spikes,
 but the layer-0 routed-experts fingerprint forms a structurally stable, cross-GPU-reproducible gap
 between same- and cross-model cases (under a layer-0 random-5 aggregate, a BF16 verifier attains
-TPR = 1.000 with 0.000 false-pass at threshold 0.060). On cost, a vLLM latency benchmark
-shows a single verification prefill costs about 1% of one generation
-(worker/verifier ≈ 80×–114×), so three verifiers together consume
-roughly **1.9%–14.8%** of the GPU time of a single generation—direct
-quantitative evidence that verification is far cheaper than generation.
+TPR = 1.000 with 0.000 false-pass at threshold 0.060). On compute time, Qwen3-8B / Qwen3-32B benchmarks report one verification replay at **0.85%–8.42%** of generation time for outputs of **1,024–8,192 tokens**. A separate Qwen2.5-7B experiment reports **three replay passes combined at 1.9%–14.8%**, with output fixed at **1,000 tokens**. These configuration-dependent timing results are not measurements of total online-service cost (§6).
 
 **Keywords:** execution verification; logprob fingerprint; majority consensus; commit–reveal; VRF; Mixture-of-Experts; routed experts; vLLM; decentralized inference
 
@@ -89,7 +85,7 @@ distributions in parallel under the causal mask, and reads off each token's prob
 rank—**with no token-by-token decoding.**
 
 This demotes “verification” from “replaying generation” to “one
-forward pass,” cutting cost from the order of generation down to about 1% (§6). On top of
+forward pass,” reducing measured compute time in the evaluated long-output configurations (§6). On top of
 that, LMCV uses cryptographic commitments, random selection, and majority consensus to turn it into
 a collusion-resistant, settleable, auditable protocol (§3–§5).
 
@@ -109,10 +105,7 @@ a collusion-resistant, settleable, auditable protocol (§3–§5).
   structural criterion based on routed experts—in particular the **layer-0 routing
   fingerprint**—with an explanation of why layer 0 has a higher signal-to-noise ratio
   than all-layer aggregation (§5).
-4. **Cost and empirics.** A vLLM latency benchmark quantifying the
-  verify/generate cost ratio (80×–114×; three verifiers total 1.9%–14.8% of a
-  generation), plus dense/MoE, cross-GPU evidence for fingerprint separability and stability
-  (§6, §7).
+4. **Cost and empirics.** Separate compute-time results for one Qwen3 verification replay and three Qwen2.5-7B replay passes, with their model, output-length and measurement boundaries stated explicitly (§6), plus dense/MoE, cross-GPU evidence for fingerprint separability and stability (§7).
 5. **Security analysis.** Resistance to model substitution, quantization
   substitution, probability forgery, verifier copying, and collusion—and the boundaries of
   those guarantees (§8).
@@ -472,17 +465,13 @@ pays off:
 | 2048 / 4096 | 73.04 | 0.819 | **89.2×** |
 | 1024 / 4096 | 72.24 | 0.691 | **104.6×** |
 
-The sole exception is output=1, where the verifier's per-position top-*k*
-overhead makes it slightly slower (ratio 0.62–0.82), a corner case. In typical long-output
-settings, a single verification is about 1% of one generation; across the measured input/output
-configurations, **three verifiers each doing one prefill together consume roughly
-1.9%–14.8% of the GPU time of one generation**—precisely the affordability basis
-for two-of-three majority consensus.
+For output=1, the reported worker/verifier ratio is 0.62–0.82: verification can take longer than generation. The representative rows above do not define a universal verification ratio.
 
-> **Note.** The above are batch=1 single-request latencies. In online serving, the
-> worker amortizes per-token cost via continuous batching and the verifier can also verify in
-> batches, so absolute figures shift; but the order-of-magnitude gap between parallel prefill and
-> serial decode is unchanged.
+Across the published **Qwen3-8B / Qwen3-32B** timing tables, restricted to outputs of **1,024–8,192 tokens**, one replay takes approximately **0.85%–8.42%** of generation time. The models were measured on an RTX 4090 and an H100 NVL, respectively. See the [benchmark report](https://github.com/TrueOpen/lmcv-experiments/blob/main/experiments/worker-verifier-latency/reports/worker_verifier_latency_benchmark_report.md) and [whitepaper §3.1.5](https://www.trueopen.ai/docs/whitepaper/#315-verification-cost-and-scope).
+
+A **separate Qwen2.5-7B** experiment reports **1.9%–14.8%** for **three replay passes combined**, calculated as `3 × tf_full / gen`, with output fixed at **1,000 tokens** and input lengths of 50–8,000 tokens. It used FP16, batch size 1, vLLM 0.20.1 and one RTX PRO 6000 Blackwell (96 GB). See the [7B experiment report](https://www.trueopen.ai/docs/verification-cost-7b/). This range is not obtained by multiplying the Qwen3 ratios by three.
+
+> **Measurement scope.** Both results concern compute time under their respective configurations. Neither includes networking, gas, queuing, evidence handling or settlement costs. Three replay passes do not establish an end-to-end service running on three independent nodes. Continuous batching and production scheduling may change the ratios; production total cost and throughput must be measured separately.
 
 ## 7. Empirical Evaluation
 
@@ -605,7 +594,7 @@ through.
 ## 9. Discussion and Related Work
 
 LMCV sits between replay-based verification and cryptographic proof: versus full recomputation it
-cuts cost to about 1%; versus zkML / verifiable computation it offers no cryptographic soundness but
+reduces measured compute time in the evaluated long-output configurations (§6); versus zkML / verifiable computation it offers no cryptographic soundness but
 adds almost no proving overhead, making it suitable as a *first-layer* verification for
 cost- and throughput-sensitive open inference networks. The two are complementary within TrueOpen:
 fixed-point-compliant quantized models can take the cryptographic-proof layered random verification
@@ -676,9 +665,7 @@ consensus—builds it into a collusion-resistant, settleable, auditable protocol
 dense logprob fingerprint is narrow and cross-GPU-stable with sharp separation of quantized and
 smaller models, allowing a direct hard decision; MoE cannot be hard-decided by logprob alone due to
 sparse heavy tails, but the layer-0 routed-experts fingerprint provides a cross-GPU-stable structural
-criterion. On cost, a single verification is about 1% of one generation in typical long-output
-settings, and three verifiers total 1.9%–14.8% across the measured configurations, making majority
-consensus economically feasible.
+criterion. On compute time, the Qwen3-8B / Qwen3-32B results show one replay at 0.85%–8.42% of generation time for outputs of 1,024–8,192 tokens. The separate Qwen2.5-7B experiment shows three replay passes combined at 1.9%–14.8% with output fixed at 1,000 tokens. These measurements support further evaluation of verification overhead; they do not establish production total cost or the economics of a deployed three-node service.
 
 Worker–verifier verification should therefore be designed by architecture:
 **dense relies primarily on the logprob fingerprint; MoE relies primarily on the layer-0
