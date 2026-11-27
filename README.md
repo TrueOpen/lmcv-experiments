@@ -1,5 +1,11 @@
 # Logprob verification — Experiments
 
+**Open GPU network. Verifiable inference. Revenue for open-model creators.**
+
+一个提供可验证推理的开放算力网络，为开源模型作者创造收入
+
+[Website](https://trueopen.ai/) · [GitHub](https://github.com/TrueOpen) · [Hugging Face](https://huggingface.co/datasets/TrueOpenAI/lmcv-experiments)
+
 **Naming:** The public name is **Logprob verification** (中文：**logprob 验证**). Published papers use **Logprob Majority-Consensus Verification (LMCV)**. Original papers, citations, filenames and repository URLs remain unchanged.
 
 **Project page:** [trueopen.ai/research/lmcv](https://www.trueopen.ai/research/lmcv/)
